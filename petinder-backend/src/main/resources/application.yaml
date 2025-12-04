@@ -1,3 +1,13 @@
 spring:
-  application:
-    name: petinder-backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/petinder
+    username: petinder
+    password: secret
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  secret: "KeyProdChange"
+  expiration: 86400000
