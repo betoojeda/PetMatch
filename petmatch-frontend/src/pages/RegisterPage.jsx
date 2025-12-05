@@ -5,21 +5,33 @@ import logo from '../assets/LogoSinFondo.png'; // Usando el logo sin fondo
 import '../App.css';
 
 const RegisterPage = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    lastName: '',
+    email: '',
+    password: '',
+    gender: '',
+    numberOfPets: 0,
+    profileDescription: '',
+  });
   const [error, setError] = useState('');
   const { register } = useAuth();
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     try {
-      await register(name, email, password);
+      await register(formData); // Enviar el objeto formData completo
       navigate('/');
     } catch (err) {
-      setError('Error al registrarse. Inténtalo de nuevo.');
+      const errorMessage = err.response?.data?.message || 'Error al registrarse. Inténtalo de nuevo.';
+      setError(errorMessage);
       console.error(err);
     }
   };
@@ -34,29 +46,68 @@ const RegisterPage = () => {
           <div className="input-group">
             <input
               type="text"
+              name="name"
               placeholder="Nombre"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={formData.name}
+              onChange={handleChange}
               required
             />
           </div>
           <div className="input-group">
             <input
+              type="text"
+              name="lastName"
+              placeholder="Apellido"
+              value={formData.lastName}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="input-group">
+            <input
               type="email"
+              name="email"
               placeholder="Correo electrónico"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
               required
             />
           </div>
           <div className="input-group">
             <input
               type="password"
+              name="password"
               placeholder="Contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
               required
             />
+          </div>
+          <div className="input-group">
+            <select name="gender" value={formData.gender} onChange={handleChange}>
+              <option value="">Selecciona tu género</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Femenino">Femenino</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+          <div className="input-group">
+            <label htmlFor="numberOfPets">¿Cuántas mascotas tienes?</label>
+            <input
+              type="number"
+              id="numberOfPets"
+              name="numberOfPets"
+              value={formData.numberOfPets}
+              onChange={handleChange}
+              min="0"
+            />
+          </div>
+          <div className="input-group">
+            <textarea
+              name="profileDescription"
+              placeholder="Cuéntanos un poco sobre ti..."
+              value={formData.profileDescription}
+              onChange={handleChange}
+            ></textarea>
           </div>
           <button type="submit" className="auth-button">Registrarse</button>
           <p className="auth-switch">

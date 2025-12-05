@@ -24,8 +24,12 @@ const LoginPage = () => {
     e.preventDefault();
     setError('');
     try {
-      await login(email, password);
-      navigate('/');
+      const { role } = await login(email, password);
+      if (role === 'ADMIN') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       setError('Error al iniciar sesión. Revisa tus credenciales.');
       console.error(err);
@@ -73,6 +77,9 @@ const LoginPage = () => {
           <button type="submit" className="auth-button">Entrar</button>
           <p className="auth-switch">
             ¿No tienes cuenta? <Link to="/register">Regístrate</Link>
+          </p>
+          <p className="forgot-password" style={{ marginTop: '1rem' }}>
+            <Link to="/forgot-password">¿Olvidaste tu contraseña?</Link>
           </p>
         </form>
       </div>

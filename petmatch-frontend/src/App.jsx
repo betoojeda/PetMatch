@@ -7,6 +7,8 @@ import PublicHomePage from './pages/PublicHomePage';
 import AboutPage from './pages/AboutPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 
 // Páginas Protegidas (App Principal)
 import DashboardPage from './pages/DashboardPage'; // Renombramos HomePage a DashboardPage
@@ -15,6 +17,7 @@ import MatchesPage from './pages/MatchesPage';
 // Páginas de Admin
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import UsersListPage from './pages/admin/UsersListPage';
+import PetManagementPage from './pages/admin/PetManagementPage'; // Importar la nueva página
 
 // Componentes de Ruta
 import ProtectedRoute from './components/ProtectedRoute';
@@ -43,6 +46,8 @@ function AppRoutes() {
       <Route path="/about" element={<AboutPage />} />
       <Route path="/login" element={<PublicRoute element={<LoginPage />} />} />
       <Route path="/register" element={<PublicRoute element={<RegisterPage />} />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
       
       {/* --- Rutas Protegidas para Usuarios --- */}
       <Route element={<ProtectedRoute />}>
@@ -54,6 +59,7 @@ function AppRoutes() {
       <Route path="/admin" element={<AdminRoute />}>
         <Route index element={<AdminDashboardPage />} />
         <Route path="users" element={<UsersListPage />} />
+        <Route path="pets" element={<PetManagementPage />} /> {/* Nueva ruta para gestión de mascotas */}
       </Route>
 
       {/* Redirección para rutas no encontradas */}

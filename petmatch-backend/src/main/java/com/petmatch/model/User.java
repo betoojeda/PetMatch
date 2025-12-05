@@ -24,12 +24,20 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private String name;
+    private String name; // Nombre
+    private String lastName; // Apellido
+
+    private String gender; // Género
+    private Integer numberOfPets; // Cuántos perros tiene
+
+    @Lob // Para textos largos
+    private String profileDescription; // Descripción para su perfil
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
+    @Builder.Default
     private Instant createdAt = Instant.now();
 
     public enum Role {

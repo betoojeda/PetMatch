@@ -304,7 +304,7 @@ body {
   text-shadow: 0 0 5px #fff, 0 0 10px #ff00ff;
 }
 .input-group { margin-bottom: 1.2rem; }
-.auth-form input {
+.auth-form input, .auth-form select, .auth-form textarea {
   width: 100%;
   padding: 0.9rem 1rem;
   border: 1px solid #00ffff;
@@ -314,8 +314,8 @@ body {
   color: #fff;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
-.auth-form input::placeholder { color: #888; }
-.auth-form input:focus {
+.auth-form input::placeholder, .auth-form textarea::placeholder { color: #888; }
+.auth-form input:focus, .auth-form select:focus, .auth-form textarea:focus {
   outline: none;
   border-color: #ff00ff;
   box-shadow: 0 0 10px rgba(255, 0, 255, 0.6);
@@ -360,12 +360,12 @@ body {
   color: #333;
   text-shadow: none;
 }
-.light-theme .auth-form input {
+.light-theme .auth-form input, .light-theme .auth-form select, .light-theme .auth-form textarea {
   background-color: #f9f9f9;
   border-color: #ccc;
   color: #333;
 }
-.light-theme .auth-form input:focus {
+.light-theme .auth-form input:focus, .light-theme .auth-form select:focus, .light-theme .auth-form textarea:focus {
   border-color: #ff69b4;
   box-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
 }
@@ -542,4 +542,78 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
   padding: 20px;
   border-radius: 15px;
+}
+
+/* --- ESTILOS PARA ADMIN HOMEPAGE --- */
+.admin-homepage {
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  position: relative;
+}
+
+.admin-homepage-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Superposición oscura para sobriedad */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-homepage-content {
+  z-index: 1;
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente para el contenido */
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  max-width: 800px;
+}
+
+.admin-homepage-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  color: #f0e68c; /* Un color dorado suave para resaltar */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.admin-homepage-content p {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  color: #ccc;
+}
+
+.admin-homepage-nav {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.admin-nav-button {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background-color: #4CAF50; /* Un verde más serio */
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.admin-nav-button:hover {
+  background-color: #45a049;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }

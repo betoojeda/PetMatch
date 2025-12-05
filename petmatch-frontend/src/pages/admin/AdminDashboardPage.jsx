@@ -1,23 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PerroAdmin from '../../assets/PerroAdmin.png'; // Importamos la imagen
+import '../../App.css'; // Nos aseguramos de que los estilos se carguen
 
 const AdminDashboardPage = () => {
   return (
-    <div className="admin-dashboard">
-      <h2>Panel de Administración</h2>
-      <p>Bienvenido, administrador. Desde aquí puedes gestionar la aplicación.</p>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/admin/users">Gestionar Usuarios</Link>
-          </li>
-          {/* Próximamente:
-          <li>
-            <Link to="/admin/pets">Gestionar Mascotas</Link>
-          </li>
-          */}
-        </ul>
-      </nav>
+    <div className="admin-homepage" style={{ backgroundImage: `url(${PerroAdmin})` }}>
+      <div className="admin-homepage-overlay">
+        <div className="admin-homepage-content">
+          <h1>Panel de Administración</h1>
+          <p>Bienvenido. Desde aquí puedes gestionar usuarios y mascotas.</p>
+          <nav className="admin-homepage-nav">
+            <Link to="/admin/users" className="admin-nav-button">
+              Gestionar Usuarios
+            </Link>
+            <Link to="/admin/pets" className="admin-nav-button">
+              Gestionar Mascotas
+            </Link>
+          </nav>
+        </div>
+      </div>
     </div>
   );
 };

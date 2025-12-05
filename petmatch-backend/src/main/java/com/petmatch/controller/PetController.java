@@ -2,6 +2,7 @@ package com.petmatch.controller;
 
 import com.petmatch.dto.PetDto;
 import com.petmatch.service.PetService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,13 +20,13 @@ public class PetController {
 
     @PostMapping
     @PreAuthorize("isAuthenticated()") // Solo usuarios logueados pueden crear mascotas
-    public PetDto create(@RequestBody PetDto pet) {
+    public PetDto create(@Valid @RequestBody PetDto pet) {
         return petService.createPet(pet);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public PetDto update(@PathVariable Long id, @RequestBody PetDto pet) {
+    public PetDto update(@PathVariable Long id, @Valid @RequestBody PetDto pet) {
         return petService.updatePet(id, pet);
     }
 

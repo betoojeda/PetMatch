@@ -14,8 +14,26 @@ public class PetMapper {
         dto.setId(pet.getId());
         dto.setName(pet.getName());
         dto.setType(pet.getSpecies());
+        dto.setBreed(pet.getBreed());
         dto.setAge(pet.getAge());
-        dto.setPhotoUrl(null); // Pet model does not have a photoUrl
+        dto.setDescription(pet.getDescription());
+        dto.setPhotoUrl(pet.getPhotoUrl());
+
+        // Mapeo de los nuevos campos
+        dto.setSize(pet.getSize());
+        dto.setGender(pet.getGender());
+        dto.setEnergyLevel(pet.getEnergyLevel());
+        dto.setTemperament(pet.getTemperament());
+        dto.setCompatibleWithDogs(pet.isCompatibleWithDogs());
+        dto.setCompatibleWithCats(pet.isCompatibleWithCats());
+        dto.setCompatibleWithChildren(pet.isCompatibleWithChildren());
+        dto.setSpecialNeeds(pet.getSpecialNeeds());
+        dto.setTrainingLevel(pet.getTrainingLevel());
+        dto.setVaccinated(pet.isVaccinated());
+        dto.setDewormed(pet.isDewormed());
+        dto.setSterilized(pet.isSterilized());
+        dto.setHistory(pet.getHistory());
+
         return dto;
     }
 

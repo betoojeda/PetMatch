@@ -8,6 +8,9 @@ import com.petmatch.repository.PetRepository;
 import com.petmatch.repository.UserRepository;
 import com.petmatch.service.PetService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,112 +20,138 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PetServiceImpl implements PetService {
 
+    private static final Logger log = LoggerFactory.getLogger(PetServiceImpl.class);
+
     private final PetRepository petRepository;
     private final UserRepository userRepository;
     private final PetMapper petMapper;
 
     @Override
     public PetDto createPet(PetDto dto) {
-        User owner = userRepository.findById(1L) // FIXME: get owner from authenticated user
-                .orElseThrow(() -> new RuntimeException("Owner not found"));
+        log.info("Creating pet for owner with ID: {}", dto.getOwnerId());
+        User owner = userRepository.findById(dto.getOwnerId())
+                .orElseThrow(() -> {
+                    log.error("Owner not found with ID: {}", dto.getOwnerId());
+                    return new RuntimeException("Owner not found");
+                });
+
         Pet pet = Pet.builder()
                 .name(dto.getName())
                 .species(dto.getType())
+                .breed(dto.getBreed())
                 .age(dto.getAge())
+                .description(dto.getDescription())
+                .photoUrl(dto.getPhotoUrl())
+                .size(dto.getSize())
+                .gender(dto.getGender())
+                .energyLevel(dto.getEnergyLevel())
+                .temperament(dto.getTemperament())
+                .compatibleWithDogs(dto.isCompatibleWithDogs())
+                .compatibleWithCats(dto.isCompatibleWithCats())
+                .compatibleWithChildren(dto.isCompatibleWithChildren())
+                .specialNeeds(dto.getSpecialNeeds())
+                .trainingLevel(dto.getTrainingLevel())
+                .isVaccinated(dto.isVaccinated())
+                .isDewormed(dto.isDewormed())
+                .isSterilized(dto.isSterilized())
+                .history(dto.getHistory())
                 .owner(owner)
                 .build();
-        return petMapper.toDto(petRepository.save(pet));
+        Pet savedPet = petRepository.save(pet);
+        log.info("Pet created with ID: {}", savedPet.getId());
+        return petMapper.toDto(savedPet);
     }
 
     @Override
     public PetDto updatePet(Long id, PetDto petDto) {
+        log.info("Updating pet with ID: {}", id);
         Pet pet = petRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pet not found"));
+                .orElseThrow(() -> {
+                    log.error("Pet not found with ID: {}", id);
+                    return new RuntimeException("Pet not found");
+                });
+        
+        checkOwnershipOrAdmin(pet);
+
         pet.setName(petDto.getName());
         pet.setSpecies(petDto.getType());
+        pet.setBreed(petDto.getBreed());
         pet.setAge(petDto.getAge());
-        return petMapper.toDto(petRepository.save(pet));
+        pet.setDescription(petDto.getDescription());
+        pet.setPhotoUrl(petDto.getPhotoUrl());
+        pet.setSize(petDto.getSize());
+        pet.setGender(petDto.getGender());
+        pet.setEnergyLevel(petDto.getEnergyLevel());
+        pet.setTemperament(petDto.getTemperament());
+        pet.setCompatibleWithDogs(petDto.isCompatibleWithDogs());
+        pet.setCompatibleWithCats(petDto.isCompatibleWithCats());
+        pet.setCompatibleWithChildren(petDto.isCompatibleWithChildren());
+        pet.setSpecialNeeds(petDto.getSpecialNeeds());
+        pet.setTrainingLevel(petDto.getTrainingLevel());
+        pet.setVaccinated(petDto.isVaccinated());
+        pet.setDewormed(petDto.isDewormed());
+        pet.setSterilized(petDto.isSterilized());
+        pet.setHistory(petDto.getHistory());
+
+        Pet updatedPet = petRepository.save(pet);
+        log.info("Pet with ID: {} updated successfully", updatedPet.getId());
+        return petMapper.toDto(updatedPet);
     }
 
     @Override
     public void deletePet(Long id) {
+        log.info("Deleting pet with ID: {}", id);
+        Pet pet = petRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Pet not found with ID: {}", id);
+                    return new RuntimeException("Pet not found");
+                });
+        
+        checkOwnershipOrAdmin(pet);
+        
         petRepository.deleteById(id);
+        log.info("Pet with ID: {} deleted successfully", id);
     }
 
     @Override
     public PetDto getPet(Long id) {
+        log.info("Fetching pet with ID: {}", id);
         return petRepository.findById(id)
-                .map(petMapper::toDto)
-                .orElseThrow(() -> new RuntimeException("Pet not found"));
+                .map(pet -> {
+                    log.info("Pet found with ID: {}", id);
+                    return petMapper.toDto(pet);
+                })
+                .orElseThrow(() -> {
+                    log.error("Pet not found with ID: {}", id);
+                    return new RuntimeException("Pet not found");
+                });
     }
 
     @Override
     public List<PetDto> getAllPets() {
-        return petRepository.findAll().stream()
+        log.info("Fetching all pets");
+        List<PetDto> pets = petRepository.findAll().stream()
                 .map(petMapper::toDto)
                 .collect(Collectors.toList());
+        log.info("Found {} pets", pets.size());
+        return pets;
     }
 
     @Override
     public List<PetDto> getPetsByOwner(Long ownerId) {
-        // This method is not yet implemented in the repository
-        return List.of();
+        log.info("Fetching pets for owner with ID: {}", ownerId);
+        List<PetDto> pets = petRepository.findByOwnerId(ownerId).stream()
+                .map(petMapper::toDto)
+                .collect(Collectors.toList());
+        log.info("Found {} pets for owner with ID: {}", pets.size(), ownerId);
+        return pets;
     }
 
-    @Service
-    @RequiredArgsConstructor
-    public static class PetServiceImpl implements PetService {
-
-        private final PetRepository petRepository;
-        private final UserRepository userRepository;
-        private final PetMapper petMapper;
-
-        @Override
-        public PetDto createPet(PetDto dto) {
-            User owner = userRepository.findById(1L) // FIXME: get owner from authenticated user
-                    .orElseThrow(() -> new RuntimeException("Owner not found"));
-            Pet pet = Pet.builder()
-                    .name(dto.getName())
-                    .species(dto.getType())
-                    .age(dto.getAge())
-                    .owner(owner)
-                    .build();
-            return petMapper.toDto(petRepository.save(pet));
-        }
-
-        @Override
-        public PetDto updatePet(Long id, PetDto petDto) {
-            Pet pet = petRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Pet not found"));
-            pet.setName(petDto.getName());
-            pet.setSpecies(petDto.getType());
-            pet.setAge(petDto.getAge());
-            return petMapper.toDto(petRepository.save(pet));
-        }
-
-        @Override
-        public void deletePet(Long id) {
-            petRepository.deleteById(id);
-        }
-
-        @Override
-        public PetDto getPet(Long id) {
-            return petRepository.findById(id)
-                    .map(petMapper::toDto)
-                    .orElseThrow(() -> new RuntimeException("Pet not found"));
-        }
-
-        @Override
-        public List<PetDto> getAllPets() {
-            return petRepository.findAll().stream()
-                    .map(petMapper::toDto)
-                    .collect(Collectors.toList());
-        }
-
-        @Override
-        public List<PetDto> getPetsByOwner(Long ownerId) {
-            // This method is not yet implemented in the repository
-            return List.of();
+    private void checkOwnershipOrAdmin(Pet pet) {
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!pet.getOwner().getId().equals(currentUser.getId()) && !currentUser.getRole().equals(User.Role.ADMIN)) {
+            log.warn("User with ID: {} attempted to access pet with ID: {} without ownership or admin rights", currentUser.getId(), pet.getId());
+            throw new SecurityException("No tienes permiso para realizar esta acción.");
         }
     }
 }

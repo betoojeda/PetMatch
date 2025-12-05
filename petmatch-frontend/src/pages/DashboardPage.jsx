@@ -30,11 +30,13 @@ const DashboardPage = () => {
       <header className="homepage-header">
         <div className="nav-left">
           <Link to="/matches" className="nav-link">Mis Matches</Link>
+          {/*
           {isAdmin && (
             <Link to="/admin" className="nav-link admin-link">
               Admin
             </Link>
           )}
+          */}
         </div>
         <h1 className="brand-title">PetMatch</h1>
         <div className="nav-right">

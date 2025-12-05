@@ -9,7 +9,6 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,9 +17,6 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
-    private String jwtSecret;
-
     @Value("${jwt.expiration:86400000}") // default 24h
     private long jwtExpirationMs;
 
@@ -28,7 +24,8 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
-        key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+        // Genera una clave segura para HS256
+        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
     public String generateToken(String username, String role) {
@@ -63,9 +60,5 @@ public class JwtUtil {
 
     public String getUsernameFromToken(String token) {
         return getAllClaimsFromToken(token).getSubject();
-    }
-
-    public String getRoleFromToken(String token) {
-        return getAllClaimsFromToken(token).get("role", String.class);
     }
 }

@@ -9,20 +9,14 @@ const UsersListPage = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        // En el futuro, este endpoint debería existir en tu backend y estar protegido para admins
-        // const response = await fetch('/api/admin/users', {
-        //   headers: { 'Authorization': `Bearer ${token}` },
-        // });
-        // const data = await response.json();
-        // setUsers(data);
-
-        // Por ahora, simulamos los datos
-        const mockUsers = [
-          { id: 1, name: 'Usuario de Prueba', email: 'user@example.com', role: 'USER' },
-          { id: 2, name: 'Admin de Prueba', email: 'admin@example.com', role: 'ADMIN' },
-        ];
-        setUsers(mockUsers);
-
+        const response = await fetch('/api/admin/users', {
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+        if (!response.ok) {
+          throw new Error('No tienes permiso para ver esta página.');
+        }
+        const data = await response.json();
+        setUsers(data);
       } catch (error) {
         console.error("Error al cargar usuarios:", error);
       } finally {
@@ -45,8 +39,11 @@ const UsersListPage = () => {
           <tr>
             <th>ID</th>
             <th>Nombre</th>
+            <th>Apellido</th>
             <th>Email</th>
             <th>Rol</th>
+            <th>Género</th>
+            <th>Nº Mascotas</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -55,8 +52,11 @@ const UsersListPage = () => {
             <tr key={user.id}>
               <td>{user.id}</td>
               <td>{user.name}</td>
+              <td>{user.lastName}</td>
               <td>{user.email}</td>
               <td>{user.role}</td>
+              <td>{user.gender}</td>
+              <td>{user.numberOfPets}</td>
               <td>
                 <button>Editar</button>
                 <button>Eliminar</button>

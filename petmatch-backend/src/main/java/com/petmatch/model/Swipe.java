@@ -29,5 +29,6 @@ public class Swipe {
     @Column(nullable = false)
     private String type;
 
+    @Builder.Default
     private Instant createdAt = Instant.now();
 }

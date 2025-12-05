@@ -24,5 +24,6 @@ public class Message {
     @Column(columnDefinition = "text")
     private String text;
 
+    @Builder.Default
     private Instant createdAt = Instant.now();
 }

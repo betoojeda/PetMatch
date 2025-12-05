@@ -45,26 +45,32 @@ export const AuthProvider = ({ children }) => {
       throw new Error('Error en el login');
     }
 
-    const { token: authToken } = await response.json();
-    const decoded = jwtDecode(authToken);
+    const data = await response.json();
+    const decoded = jwtDecode(data.token);
     
-    localStorage.setItem('token', authToken);
-    setToken(authToken);
+    localStorage.setItem('token', data.token);
+    setToken(data.token);
     setUser({ email: decoded.sub, role: decoded.role });
+
+    return { role: decoded.role }; // Devolver el rol del usuario
   };
 
-  const register = async (name, email, password) => {
+  const register = async (formData) => {
     const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify(formData),
     });
 
     if (!response.ok) {
-        throw new Error('Error en el registro');
+        // Lanzar el error con la respuesta para que el componente pueda leer el mensaje
+        const errorData = await response.json().catch(() => ({ message: 'Error en el registro' }));
+        const error = new Error(errorData.message);
+        error.response = { data: errorData };
+        throw error;
     }
     // Después del registro, hacemos login para obtener el token y los datos
-    await login(email, password);
+    await login(formData.email, formData.password);
   };
 
   const logout = () => {

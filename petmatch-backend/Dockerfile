@@ -9,4 +9,6 @@ FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
+# El ENTRYPOINT ahora puede usar JAVA_TOOL_OPTIONS para argumentos de JVM, incluyendo la depuración.
+# No necesitamos cambiar esta línea, ya que JAVA_TOOL_OPTIONS se inyectará automáticamente.
 ENTRYPOINT ["java", "-jar", "app.jar"]
