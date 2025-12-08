@@ -1,17 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 
-.public-homepage-container {
-    font-family: 'Arial', sans-serif;
+/* Contenedor principal de la página de inicio */
+.landing-page {
+    font-family: 'Poppins', sans-serif;
     text-align: center;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: transparent; /* Hereda el fondo global */
     color: #333; /* Texto oscuro por defecto */
+
+    /* --- ¡NUEVO FONDO MULTICAPA! --- */
+    /* Capa superior: Degradado semi-transparente */
+    background: linear-gradient(135deg, rgba(255, 218, 185, 0.85) 0%, rgba(255, 255, 255, 0.9) 100%),
+                /* Capa inferior: Imagen de fondo */
+                url('/src/assets/Fondo.jpg');
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
-/* --- Header --- */
-.header {
+/* Header */
+.landing-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,55 +33,51 @@
     z-index: 10;
 }
 
-.logo {
+.landing-logo {
     font-family: 'Luckiest Guy', cursive;
     font-size: 2rem;
     color: #ff7f50;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
-.nav-links {
+.landing-nav {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.nav-links a {
+.landing-nav a {
     text-decoration: none;
 }
 
-.nav-links .btn-login, .nav-links .btn-register {
+.landing-nav-btn {
     padding: 8px 20px;
-    border: none;
+    border: 1px solid #ddd;
     border-radius: 30px;
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s;
-}
-
-.btn-login {
     background-color: #f0f0f0;
     color: #333;
-    border: 1px solid #ddd;
 }
 
-.btn-login:hover {
+.landing-nav-btn:hover {
     background-color: #e0e0e0;
     transform: scale(1.05);
 }
 
-.btn-register {
+.landing-nav-btn.primary {
     background-color: #ff7f50;
     color: #fff;
+    border-color: transparent;
 }
 
-.btn-register:hover {
+.landing-nav-btn.primary:hover {
     background-color: #e67348;
-    transform: scale(1.05);
 }
 
-/* --- Contenido Principal --- */
-.main-content {
+/* Contenido Principal */
+.landing-main {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -91,7 +97,7 @@
   max-width: 800px;
 }
 
-h1.main-title {
+.hero-title {
     font-family: 'Luckiest Guy', cursive;
     font-size: 3.5em;
     color: #444;
@@ -99,7 +105,7 @@ h1.main-title {
     margin-bottom: 10px;
 }
 
-.subtitle {
+.hero-subtitle {
     font-family: 'Luckiest Guy', cursive;
     font-size: 1.3em;
     color: #666;
@@ -108,7 +114,7 @@ h1.main-title {
     line-height: 1.4;
 }
 
-.image-container {
+.hero-image-container {
     width: 100%;
     max-width: 600px;
     height: 300px;
@@ -119,7 +125,7 @@ h1.main-title {
     position: relative;
 }
 
-.btn-community {
+.hero-cta-btn {
     padding: 15px 35px;
     background-color: #ff69b4;
     color: #fff;
@@ -132,14 +138,14 @@ h1.main-title {
     text-decoration: none;
 }
 
-.btn-community:hover {
+.hero-cta-btn:hover {
     background-color: #e04a9e;
     transform: scale(1.05);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* --- Sección de Estadísticas --- */
-.stats-container {
+/* Sección de Estadísticas */
+.landing-stats {
     background-color: #fff;
     color: #333;
     padding: 20px 10px;
@@ -167,35 +173,29 @@ h1.main-title {
     color: #666;
 }
 
-/* --- Media Queries --- */
+/* Media Queries */
 @media (max-width: 768px) {
-    h1.main-title {
+    .hero-title {
         font-size: 2.5em;
     }
-
-    .subtitle {
+    .hero-subtitle {
         font-size: 1em;
     }
-
-    .stats-container {
+    .landing-stats {
         flex-direction: column;
-        align-items: center;
         gap: 15px;
     }
-
-    .header {
+    .landing-header {
         flex-direction: column;
         gap: 15px;
         padding-bottom: 20px;
     }
-
-    .nav-links {
+    .landing-nav {
         flex-direction: column;
         width: 100%;
         gap: 10px;
     }
-
-    .nav-links a {
+    .landing-nav a {
         width: 80%;
         max-width: 250px;
         text-align: center;
