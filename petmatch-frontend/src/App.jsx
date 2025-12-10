@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
+import LostPetsPage from './pages/LostPetsPage'; // Importar la nueva página
 
 // --- Páginas Protegidas ---
 import DashboardPage from './pages/DashboardPage';
@@ -20,7 +21,7 @@ const AdminDashboardPage = React.lazy(() => import('./pages/admin/AdminDashboard
 const UsersListPage = React.lazy(() => import('./pages/admin/UsersListPage'));
 const PetManagementPage = React.lazy(() => import('./pages/admin/PetManagementPage'));
 const StatsPage = React.lazy(() => import('./pages/admin/StatsPage'));
-const ErrorLogPage = React.lazy(() => import('./pages/admin/ErrorLogPage')); // Nueva página
+const ErrorLogPage = React.lazy(() => import('./pages/admin/ErrorLogPage'));
 
 // --- Componentes de Ruta ---
 import ProtectedRoute from './components/ProtectedRoute';
@@ -55,6 +56,7 @@ function AppRoutes() {
         {/* Rutas Públicas */}
         <Route path="/" element={<PublicHomePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/lost-pets" element={<LostPetsPage />} /> {/* Nueva ruta */}
         <Route path="/login" element={<PublicRoute element={<LoginPage />} />} />
         <Route path="/register" element={<PublicRoute element={<RegisterPage />} />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -72,7 +74,7 @@ function AppRoutes() {
           <Route path="users" element={<UsersListPage />} />
           <Route path="pets" element={<PetManagementPage />} />
           <Route path="stats" element={<StatsPage />} />
-          <Route path="logs" element={<ErrorLogPage />} /> {/* Nueva ruta */}
+          <Route path="logs" element={<ErrorLogPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

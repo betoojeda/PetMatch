@@ -3,7 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import { dogBreeds } from '../constants/breeds';
 import { uploadPetPhoto } from '../services/api';
 import toast from 'react-hot-toast';
-import './PetForm.css'; // Aún lo necesitamos para estilos específicos
+import LoadingModal from './LoadingModal'; // Importar el modal
+import './PetForm.css';
 
 const PetForm = ({ pet, onClose, onSaveSuccess }) => {
   const { user } = useAuth();
@@ -17,6 +18,7 @@ const PetForm = ({ pet, onClose, onSaveSuccess }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [filePreviews, setFilePreviews] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
 
   useEffect(() => {
     if (pet) {
@@ -52,7 +54,7 @@ const PetForm = ({ pet, onClose, onSaveSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    toast.loading(pet ? 'Guardando cambios...' : 'Creando mascota...');
+    setLoadingMessage(pet ? 'Guardando cambios...' : 'Creando mascota...');
 
     try {
       const url = pet ? `/api/pets/${pet.id}` : '/api/pets';
@@ -73,7 +75,7 @@ const PetForm = ({ pet, onClose, onSaveSuccess }) => {
       let finalPet = savedPet;
 
       if (selectedFiles.length > 0) {
-        toast.loading('Subiendo fotos...', { id: 'uploading-photos' });
+        setLoadingMessage('Subiendo fotos...');
         for (const file of selectedFiles) {
           try {
             finalPet = await uploadPetPhoto(savedPet.id, file);
@@ -82,7 +84,6 @@ const PetForm = ({ pet, onClose, onSaveSuccess }) => {
             toast.error(`Error al subir una foto: ${file.name}`);
           }
         }
-        toast.success('Fotos subidas correctamente!', { id: 'uploading-photos' });
       }
 
       toast.success(pet ? 'Mascota actualizada con éxito!' : 'Mascota creada con éxito!');
@@ -92,7 +93,7 @@ const PetForm = ({ pet, onClose, onSaveSuccess }) => {
       toast.error(error.message || 'Ocurrió un error inesperado.');
     } finally {
       setIsSubmitting(false);
-      toast.dismiss();
+      setLoadingMessage('');
     }
   };
 
@@ -126,80 +127,83 @@ const PetForm = ({ pet, onClose, onSaveSuccess }) => {
   );
 
   return (
-    <div className="form-container">
-      <h2>{pet ? 'Editar Mascota' : 'Añadir Nueva Mascota'}</h2>
-      <form onSubmit={handleSubmit}>
-        
-        <h3>Información Básica</h3>
-        {renderField('Nombre', 'name', 'text')}
-        {renderField('Especie', 'type', 'select', [
-          { value: 'Perro', label: 'Perro' },
-          { value: 'Gato', label: 'Gato' },
-          { value: 'Otro', label: 'Otro' },
-        ])}
-        <div className="form-row">
-          <label>Raza</label>
-          {formData.type === 'Perro' ? (
-            <select name="breed" value={formData.breed} onChange={handleChange} required className="form-input">
-              <option value="">Selecciona una raza</option>
-              {dogBreeds.map(breed => <option key={breed} value={breed}>{breed}</option>)}
-              <option value="Otra">Otra (especificar)</option>
-            </select>
-          ) : (
-            <input type="text" name="breed" value={formData.breed} onChange={handleChange} required className="form-input" />
-          )}
-        </div>
-        {renderField('Edad', 'age', 'number')}
-        {renderField('Género', 'gender', 'select', [
-          { value: '', label: 'Selecciona' },
-          { value: 'Macho', label: 'Macho' },
-          { value: 'Hembra', label: 'Hembra' },
-        ])}
-        {renderField('Tamaño', 'size', 'select', [
-          { value: '', label: 'Selecciona' },
-          { value: 'Pequeño', label: 'Pequeño' },
-          { value: 'Mediano', label: 'Mediano' },
-          { value: 'Grande', label: 'Grande' },
-        ])}
-
-        <h3>Personalidad y Comportamiento</h3>
-        {renderField('Nivel de Energía', 'energyLevel', 'select', [
-          { value: '', label: 'Selecciona' },
-          { value: 'Bajo', label: 'Bajo' },
-          { value: 'Medio', label: 'Medio' },
-          { value: 'Alto', label: 'Alto' },
-        ])}
-        {renderCheckboxGroup('Compatibilidad', [
-          { name: 'compatibleWithDogs', label: 'Con perros' },
-          { name: 'compatibleWithCats', label: 'Con gatos' },
-          { name: 'compatibleWithChildren', label: 'Con niños' },
-        ])}
-        
-        <h3>Salud</h3>
-        {renderCheckboxGroup('Estado de Salud', [
-          { name: 'vaccinated', label: 'Vacunado' },
-          { name: 'dewormed', label: 'Desparasitado' },
-          { name: 'sterilized', label: 'Esterilizado' },
-        ])}
-
-        <h3>Fotos y Descripción</h3>
-        <div className="form-row">
-          <label>Fotos de la Mascota</label>
-          <input type="file" multiple accept="image/*" onChange={handleFileChange} className="form-input" />
-          <div className="image-previews">
-            {filePreviews.map((url, index) => (
-              <img key={index} src={url} alt={`Preview ${index}`} />
-            ))}
+    <>
+      {isSubmitting && <LoadingModal message={loadingMessage} />}
+      <div className="form-container">
+        <h2>{pet ? 'Editar Mascota' : 'Añadir Nueva Mascota'}</h2>
+        <form onSubmit={handleSubmit}>
+          
+          <h3>Información Básica</h3>
+          {renderField('Nombre', 'name', 'text')}
+          {renderField('Especie', 'type', 'select', [
+            { value: 'Perro', label: 'Perro' },
+            { value: 'Gato', label: 'Gato' },
+            { value: 'Otro', label: 'Otro' },
+          ])}
+          <div className="form-row">
+            <label>Raza</label>
+            {formData.type === 'Perro' ? (
+              <select name="breed" value={formData.breed} onChange={handleChange} required className="form-input">
+                <option value="">Selecciona una raza</option>
+                {dogBreeds.map(breed => <option key={breed} value={breed}>{breed}</option>)}
+                <option value="Otra">Otra (especificar)</option>
+              </select>
+            ) : (
+              <input type="text" name="breed" value={formData.breed} onChange={handleChange} required className="form-input" />
+            )}
           </div>
-        </div>
-        {renderField('Descripción', 'description', 'textarea')}
+          {renderField('Edad', 'age', 'number')}
+          {renderField('Género', 'gender', 'select', [
+            { value: '', label: 'Selecciona' },
+            { value: 'Macho', label: 'Macho' },
+            { value: 'Hembra', label: 'Hembra' },
+          ])}
+          {renderField('Tamaño', 'size', 'select', [
+            { value: '', label: 'Selecciona' },
+            { value: 'Pequeño', label: 'Pequeño' },
+            { value: 'Mediano', label: 'Mediano' },
+            { value: 'Grande', label: 'Grande' },
+          ])}
 
-        <div className="form-actions">
-          <button type="button" onClick={onClose} className="button-secondary" disabled={isSubmitting}>Cancelar</button>
-          <button type="submit" className="button-primary" disabled={isSubmitting}>{isSubmitting ? 'Guardando...' : (pet ? 'Guardar Cambios' : 'Añadir Mascota')}</button>
-        </div>
-      </form>
-    </div>
+          <h3>Personalidad y Comportamiento</h3>
+          {renderField('Nivel de Energía', 'energyLevel', 'select', [
+            { value: '', label: 'Selecciona' },
+            { value: 'Bajo', label: 'Bajo' },
+            { value: 'Medio', label: 'Medio' },
+            { value: 'Alto', label: 'Alto' },
+          ])}
+          {renderCheckboxGroup('Compatibilidad', [
+            { name: 'compatibleWithDogs', label: 'Con perros' },
+            { name: 'compatibleWithCats', label: 'Con gatos' },
+            { name: 'compatibleWithChildren', label: 'Con niños' },
+          ])}
+          
+          <h3>Salud</h3>
+          {renderCheckboxGroup('Estado de Salud', [
+            { name: 'vaccinated', label: 'Vacunado' },
+            { name: 'dewormed', label: 'Desparasitado' },
+            { name: 'sterilized', label: 'Esterilizado' },
+          ])}
+
+          <h3>Fotos y Descripción</h3>
+          <div className="form-row">
+            <label>Fotos de la Mascota</label>
+            <input type="file" multiple accept="image/*" onChange={handleFileChange} className="form-input" />
+            <div className="image-previews">
+              {filePreviews.map((url, index) => (
+                <img key={index} src={url} alt={`Preview ${index}`} />
+              ))}
+            </div>
+          </div>
+          {renderField('Descripción', 'description', 'textarea')}
+
+          <div className="form-actions">
+            <button type="button" onClick={onClose} className="button-secondary" disabled={isSubmitting}>Cancelar</button>
+            <button type="submit" className="button-primary" disabled={isSubmitting}>{isSubmitting ? 'Guardando...' : (pet ? 'Guardar Cambios' : 'Añadir Mascota')}</button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 

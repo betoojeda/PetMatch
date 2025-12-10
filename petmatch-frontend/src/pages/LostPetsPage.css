@@ -1,0 +1,30 @@
+.lost-pets-page-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.lost-pets-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  border-radius: 15px;
+}
+
+.lost-pets-header h1 {
+  margin-top: 0;
+}
+
+.lost-pets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.load-more-container {
+  text-align: center;
+  margin-top: 2rem;
+}

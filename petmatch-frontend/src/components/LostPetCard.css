@@ -1,0 +1,61 @@
+.lost-pet-card {
+  background: var(--color-white);
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.lost-pet-photo {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.lost-pet-info {
+  padding: 1.5rem;
+}
+
+.lost-pet-info h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--color-primary);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--color-white);
+  margin-bottom: 1rem;
+}
+
+.status-lost { background-color: var(--color-accent); }
+.status-found { background-color: #28a745; }
+.status-reunited { background-color: #6c757d; }
+
+.lost-pet-info p {
+  margin: 0.5rem 0;
+}
+
+.lost-pet-comments {
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-top: 1px solid var(--color-border);
+}
+
+.lost-pet-comments h4 {
+  margin-top: 0;
+}
+
+.comment {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.comment:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}

@@ -28,6 +28,7 @@ const PublicHomePage = () => {
       <header className="landing-header">
         <div className="landing-logo">PetMatch</div>
         <nav className="landing-nav">
+          <Link to="/lost-pets" className="landing-nav-btn">Mascotas Perdidas</Link>
           <Link to="/about" className="landing-nav-btn">Acerca de</Link>
           <Link to="/login" className="landing-nav-btn">Iniciar Sesión</Link>
           <Link to="/register" className="landing-nav-btn primary">Regístrate</Link>
@@ -46,6 +47,14 @@ const PublicHomePage = () => {
 
         <Link to="/register" className="hero-cta-btn">Únete a la Comunidad</Link>
       </main>
+
+      <section className="lost-pets-promo-section">
+        <div className="promo-content">
+          <h2>¿Has perdido o encontrado una mascota?</h2>
+          <p>Nuestra comunidad está aquí para ayudar. Publica un aviso o revisa las publicaciones para ayudar a un amigo a volver a casa.</p>
+          <Link to="/lost-pets" className="button-primary">Ir a Mascotas Perdidas</Link>
+        </div>
+      </section>
 
       <footer className="landing-stats">
         <div className="stat-item">
