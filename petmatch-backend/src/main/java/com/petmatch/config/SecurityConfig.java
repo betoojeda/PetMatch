@@ -31,6 +31,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll() // Rutas de autenticación públicas
+                .requestMatchers(HttpMethod.POST, "/api/logs").permitAll() // Permitir el endpoint de logs
                 .requestMatchers(HttpMethod.GET, "/api/pets/**").permitAll() // Permitir ver mascotas
                 .requestMatchers(HttpMethod.GET, "/api/feed").permitAll() // Permitir el feed público
                 .requestMatchers(HttpMethod.GET, "/api/lost-pets/**").permitAll() // Permitir ver posts de mascotas perdidas

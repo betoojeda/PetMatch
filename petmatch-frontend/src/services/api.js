@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { logError } from './logService'; // Importar el servicio de logs
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api',
@@ -7,6 +8,18 @@ const apiClient = axios.create({
   },
   withCredentials: true,
 });
+
+// --- Interceptor de Errores ---
+apiClient.interceptors.response.use(
+  (response) => response, // Si la respuesta es exitosa, la devolvemos tal cual
+  (error) => {
+    // Si hay un error en la respuesta, lo enviamos a nuestro servicio de logs
+    logError(error);
+    // Rechazamos la promesa para que el error siga su curso y se maneje en el catch del componente
+    return Promise.reject(error);
+  }
+);
+
 
 // --- Funciones de Autenticación ---
 export const login = async (credentials) => {
@@ -18,6 +31,7 @@ export const login = async (credentials) => {
   }
 };
 
+// ... (resto de las funciones sin cambios)
 export const register = async (userData) => {
   try {
     const response = await apiClient.post('/auth/register', userData);
@@ -46,8 +60,6 @@ export const getMe = async () => {
     throw new Error('Error al verificar la sesión');
   }
 };
-
-// --- Funciones de la Aplicación ---
 
 export const getFeed = async () => {
   try {
@@ -91,8 +103,6 @@ export const getPetsByOwner = async (ownerId) => {
     throw new Error(error.response?.data?.message || 'Error al cargar tus mascotas');
   }
 };
-
-// --- Funciones de Chat y Matches ---
 
 export const getMatches = async () => {
   try {
