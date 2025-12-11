@@ -51,7 +51,7 @@ const PublicHomePage = () => {
       <main className="landing-main">
         <div className="hero-text-box">
           <h1 className="hero-title">Conexiones Reales para Amigos Peludos.</h1>
-          <p className="hero-subtitle">La app para encontrar compañeros de juego, amigos y hasta el alma gemela de tu mascota.</p>
+          <p className="hero-subtitle">La app para encontrar compañeros de juego, amigos y hasta el alma gemela de tu mascota</p>
         </div>
         
         <div className="hero-image-container">
