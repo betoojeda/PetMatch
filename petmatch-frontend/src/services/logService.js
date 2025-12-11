@@ -5,7 +5,8 @@ export const logError = async (error) => {
     const logData = {
       level: 'ERROR',
       message: error.message,
-      stack: error.stack,
+      // Limitar el tamaño del stack trace a 2000 caracteres
+      stack: error.stack ? String(error.stack).substring(0, 2000) : 'No stack trace available',
     };
     // Usamos 'fire and forget', no necesitamos esperar la respuesta
     apiClient.post('/logs', logData);
