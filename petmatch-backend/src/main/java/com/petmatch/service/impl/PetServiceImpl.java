@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -174,7 +175,18 @@ public class PetServiceImpl implements PetService {
     }
     
     private void checkOwnershipOrAdmin(Pet pet) {
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        User currentUser = userRepository.findByEmail(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado en la base de datos"));
+
         if (!pet.getOwner().getId().equals(currentUser.getId()) && !currentUser.getRole().equals(User.Role.ADMIN)) {
             log.warn("User with ID: {} attempted to access pet with ID: {} without ownership or admin rights", currentUser.getId(), pet.getId());
             throw new SecurityException("No tienes permiso para realizar esta acción.");
