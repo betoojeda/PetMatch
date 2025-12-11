@@ -2,21 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import HeroImageCarousel from '../components/HeroImageCarousel';
 import StatsCounter from '../components/StatsCounter';
-import logo from '../assets/LogoSinFondo.png'; // Importar el logo
+import logo from '../assets/LogoSinFondo.png';
+import apiClient from '../services/api'; // Importar apiClient
 import './PublicHomePage.css';
 
 const PublicHomePage = () => {
   const [stats, setStats] = useState({ totalMatches: 0, totalUsers: 0, totalPets: 0 });
 
   useEffect(() => {
-    // Cargar las estadísticas desde el nuevo endpoint
     const fetchStats = async () => {
       try {
-        const response = await fetch('/api/stats/public');
-        if (response.ok) {
-          const data = await response.json();
-          setStats(data);
-        }
+        const response = await apiClient.get('/stats/public'); // Usar apiClient
+        setStats(response.data);
       } catch (error) {
         console.error("Error al cargar las estadísticas públicas:", error);
       }
@@ -27,7 +24,7 @@ const PublicHomePage = () => {
   return (
     <div className="landing-page"> 
       <header className="landing-header">
-        <img src={logo} alt="PetMatch Logo" className="landing-logo-img" /> {/* Reemplazar div por img */}
+        <img src={logo} alt="PetMatch Logo" className="landing-logo-img" />
         <nav className="landing-nav">
           <Link to="/lost-pets" className="landing-nav-btn">Mascotas Perdidas</Link>
           <Link to="/about" className="landing-nav-btn">Acerca de</Link>

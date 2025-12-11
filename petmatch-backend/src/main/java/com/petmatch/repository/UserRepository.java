@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
+    long countByRoleNot(User.Role role); // Nuevo método para contar usuarios excluyendo un rol
+
     @Query("SELECT new com.petmatch.dto.UserRegistrationStatsDto(CAST(u.createdAt AS java.time.LocalDate), COUNT(u.id)) " +
            "FROM User u " +
            "WHERE CAST(u.createdAt AS java.time.LocalDate) >= FUNCTION('DATE_ADD', CURRENT_DATE, -30, 'DAY') " +
