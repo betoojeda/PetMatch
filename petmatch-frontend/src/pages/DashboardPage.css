@@ -1,7 +1,7 @@
 /* ... (estilos existentes) ... */
 
 .dashboard-logo {
-  height: 150px; /* Ajusta la altura según sea necesario */
+  height: 50px;
   width: auto;
 }
 
@@ -23,18 +23,26 @@
 .nav-link, .logout-button {
   background: none;
   border: none;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
   color: var(--color-text-light);
   text-decoration: none;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.special-link {
+  background-color: var(--color-primary-light);
+  color: var(--color-white);
+  padding: 0.6rem 1rem;
+  border-radius: 20px;
 }
 
 .logout-button {
   background-color: var(--color-accent);
   color: var(--color-white);
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
   border-radius: 20px;
 }
 

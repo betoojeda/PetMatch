@@ -4,7 +4,7 @@ import TinderStack from '../components/TinderStack';
 import PetForm from '../components/PetForm';
 import MyPetsList from '../components/MyPetsList';
 import { useAuth } from '../context/AuthContext';
-import dashboardLogo from '../assets/Dashboard.png'; // Importar la imagen
+import dashboardLogo from '../assets/Dashboard.png';
 import './DashboardPage.css';
 
 const DashboardPage = () => {
@@ -40,13 +40,16 @@ const DashboardPage = () => {
           <button onClick={openPetFormForCreate} className="nav-link">
             Añadir Mascota
           </button>
+          <Link to="/lost-pets" className="nav-link special-link">
+            Reportar Perdido
+          </Link>
           {isAdmin && (
             <Link to="/admin" className="nav-link admin-link">
               Admin
             </Link>
           )}
         </div>
-        <img src={dashboardLogo} alt="PetMatch Logo" className="dashboard-logo" /> {/* Reemplazar h1 por img */}
+        <img src={dashboardLogo} alt="PetMatch Logo" className="dashboard-logo" />
         <div className="nav-right">
           <button onClick={logout} className="logout-button">
             Cerrar Sesión
