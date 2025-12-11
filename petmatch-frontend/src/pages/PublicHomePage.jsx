@@ -70,7 +70,18 @@ const PublicHomePage = () => {
       </section>
 
       <footer className="landing-stats">
-        {/* ... (stats) ... */}
+        <div className="stat-item">
+          <div className="stat-number" style={{ color: '#e55' }}>+<StatsCounter end={stats.totalMatches} /></div>
+          <div className="stat-label">Matches Creados</div>
+        </div>
+        <div className="stat-item">
+          <div className="stat-number" style={{ color: '#5cde5c' }}>+<StatsCounter end={stats.totalUsers} /></div>
+          <div className="stat-label">Miembros Activos</div>
+        </div>
+        <div className="stat-item">
+          <div className="stat-number" style={{ color: '#f7b733' }}>+<StatsCounter end={stats.totalPets} /></div>
+          <div className="stat-label">Mascotas Registradas</div>
+        </div>
       </footer>
     </div>
   );
