@@ -6,13 +6,16 @@
 }
 
 .lost-pets-header {
+  display: flex;
+  flex-direction: column; /* Apilar elementos verticalmente */
+  align-items: center; /* Centrar horizontalmente */
   text-align: center;
   margin-bottom: 3rem;
   padding: 2rem;
   background: var(--gradient-primary);
   color: var(--color-white);
   border-radius: 15px;
-  position: relative; /* Para posicionar el botón de regreso */
+  position: relative;
 }
 
 .back-to-home-link {
@@ -29,6 +32,18 @@
 
 .lost-pets-header h1 {
   margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.lost-pets-header p {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+/* Estilo específico para el botón de reportar en esta página */
+.lost-pets-header .button-primary {
+  background: var(--color-accent); /* Usar el color de acento para contraste */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .lost-pets-list {
