@@ -1,6 +1,6 @@
-# PetMatch - Encuentra la Pareja Perfecta para tu Mascota
+# PetMatch - Conecta, Juega y Ayuda
 
-PetMatch es una aplicación web moderna, de alto rendimiento y segura, diseñada para que los dueños de mascotas puedan encontrar la pareja ideal para sus compañeros peludos.
+PetMatch es una aplicación web moderna, de alto rendimiento y segura, diseñada no solo para que los dueños de mascotas encuentren la pareja ideal para sus compañeros peludos, sino también para construir una comunidad de apoyo que ayuda a las mascotas perdidas a volver a casa.
 
 ## Diagrama de Arquitectura
 
@@ -30,20 +30,25 @@ graph TD
 
 ## Características Principales
 
+### Funcionalidades para la Comunidad
 -   **Perfiles Detallados:** Creación de perfiles para usuarios y sus mascotas, con soporte para **múltiples fotos**.
 -   **Sistema de "Swipe" y Galería:** Interfaz intuitiva para descubrir mascotas y ver sus perfiles y galerías de fotos.
 -   **Chat Funcional:** Comunicación segura entre dueños una vez que se produce un "Match".
--   **Panel de Administración Avanzado:**
-    -   Gestión de usuarios y mascotas.
-    -   **Dashboard de Estadísticas:** Gráficos que muestran el crecimiento de usuarios.
-    -   **Visor de Logs de Errores:** Acceso directo a los logs de errores del backend para un diagnóstico rápido.
+-   **¡NUEVO! Sección de Mascotas Perdidas:**
+    -   Publica avisos de mascotas perdidas o encontradas con foto, descripción y ubicación.
+    -   Comenta en las publicaciones para ofrecer pistas o apoyo.
+    -   Un feed dedicado para ayudar a la comunidad a reunirse con sus amigos peludos.
+
+### Panel de Administración Avanzado
+-   Gestión de usuarios y mascotas.
+-   **Dashboard de Estadísticas:** Gráficos que muestran el crecimiento de usuarios.
+-   **Visor de Logs de Errores:** Acceso directo a los logs de errores del backend para un diagnóstico rápido.
 
 ### Características Técnicas y de Seguridad
-
 -   **Autenticación Segura con Cookies `HttpOnly`:** Mitiga el riesgo de ataques XSS al no usar `localStorage` para los tokens.
 -   **Subida de Archivos a la Nube:** Integración con **Cloudinary** para un almacenamiento de imágenes eficiente y escalable.
 -   **Manejo de Excepciones Global:** Un `@RestControllerAdvice` centraliza el manejo de errores, proporcionando respuestas de error consistentes y seguras.
--   **Logging Avanzado:** Configuración de **Logback** para separar los logs de errores en un archivo dedicado (`ErroresPetmatchBack.log`).
+-   **Logging Avanzado:** Configuración de **Logback** y un endpoint para capturar errores del frontend en el servidor.
 -   **Validación de Datos de Entrada:** Previene inyecciones de datos maliciosos y asegura la integridad de la base de datos.
 -   **Protección contra Inyección SQL:** Uso de JPA y consultas parametrizadas.
 -   **Rendimiento Optimizado (Code Splitting):** El código del panel de administración se carga de forma perezosa.
@@ -67,7 +72,7 @@ La API sigue una arquitectura RESTful y está protegida por Spring Security.
 -   `PUT /{id}`: Actualiza una mascota existente.
 -   `GET /{id}`: Obtiene los detalles de una mascota.
 -   `GET /owner/{ownerId}`: Obtiene todas las mascotas de un propietario.
--   `POST /{petId}/photos`: **Sube una foto** para una mascota y la asocia a su galería.
+-   `POST /{petId}/photo`: **Sube una foto** para una mascota y la asocia a su galería.
 
 #### Feed y Swipes (`/api/feed`, `/api/swipes`)
 -   `GET /feed`: Obtiene una lista paginada de mascotas para deslizar.
@@ -78,11 +83,18 @@ La API sigue una arquitectura RESTful y está protegida por Spring Security.
 -   `GET /messages/match/{matchId}`: Obtiene el historial de chat de un match.
 -   `POST /messages`: Envía un nuevo mensaje a un match.
 
-#### Administración (`/api/admin`)
--   `GET /users`: Obtiene una lista de todos los usuarios.
--   `GET /pets`: Obtiene una lista de todas las mascotas.
--   `GET /stats/user-registrations`: Devuelve datos agregados para el gráfico de registros de usuarios.
--   `GET /logs/errors`: Permite ver el contenido del archivo de log de errores.
+#### Mascotas Perdidas (`/api/lost-pets`)
+-   `GET /`: Obtiene una lista paginada de todos los avisos activos.
+-   `POST /`: Crea un nuevo aviso de mascota perdida.
+-   `POST /{postId}/photo`: Sube una foto para un aviso.
+-   `POST /{postId}/comments`: Añade un comentario a un aviso.
+
+#### Administración y Logs (`/api/admin`, `/api/logs`)
+-   `GET /admin/users`: Obtiene una lista de todos los usuarios.
+-   `GET /admin/pets`: Obtiene una lista de todas las mascotas.
+-   `GET /admin/stats/user-registrations`: Devuelve datos agregados para el gráfico de registros de usuarios.
+-   `GET /admin/logs/errors`: Permite ver el contenido del archivo de log de errores.
+-   `POST /logs`: Endpoint para recibir y registrar errores del frontend.
 
 ---
 
@@ -94,7 +106,7 @@ La API sigue una arquitectura RESTful y está protegida por Spring Security.
 4.  **Instala las dependencias del frontend:** `cd petmatch-frontend && npm install && cd ..`
 5.  **Levanta los contenedores:** `docker-compose up --build`
 6.  **Accede a la aplicación:**
-    -   Frontend: `http://localhost:3000`
+    -   Frontend: `http://localhost:3000` (o el puerto que te indique Vite)
     -   API Backend: `http://localhost:8080`
 
 ---

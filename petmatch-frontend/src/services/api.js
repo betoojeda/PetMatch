@@ -84,7 +84,7 @@ export const uploadPetPhoto = async (entityId, file, basePath = '/pets') => {
   formData.append('file', file);
 
   try {
-    const response = await apiClient.post(`${basePath}/${entityId}/photo`, formData, {
+    const response = await apiClient.post(`${basePath}/${entityId}/photos`, formData, { // Corregido: 'photo' a 'photos'
       headers: {
         'Content-Type': 'multipart/form-data',
       },

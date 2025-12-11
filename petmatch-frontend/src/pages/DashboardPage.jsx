@@ -4,6 +4,7 @@ import TinderStack from '../components/TinderStack';
 import PetForm from '../components/PetForm';
 import MyPetsList from '../components/MyPetsList';
 import { useAuth } from '../context/AuthContext';
+import dashboardLogo from '../assets/Dashboard.png'; // Importar la imagen
 import './DashboardPage.css';
 
 const DashboardPage = () => {
@@ -45,7 +46,7 @@ const DashboardPage = () => {
             </Link>
           )}
         </div>
-        <h1 className="brand-title">PetMatch</h1> {/* Restaurado el título de texto */}
+        <img src={dashboardLogo} alt="PetMatch Logo" className="dashboard-logo" /> {/* Reemplazar h1 por img */}
         <div className="nav-right">
           <button onClick={logout} className="logout-button">
             Cerrar Sesión
