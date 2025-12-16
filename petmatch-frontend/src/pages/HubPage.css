@@ -4,13 +4,20 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: var(--color-background);
   padding: 2rem;
+  /* Añadir la imagen de fondo */
+  background-image: url('../assets/FondoParaHub.png');
+  background-size: cover;
+  background-position: center;
 }
 
 .hub-header {
   text-align: center;
   margin-bottom: 3rem;
+  /* Añadir un fondo semitransparente para que el texto sea legible */
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1.5rem;
+  border-radius: 15px;
 }
 
 .hub-header h1 {
