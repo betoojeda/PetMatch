@@ -15,7 +15,9 @@
 
 .hub-header h1 {
   font-size: 3rem;
+  font-weight: 800;
   color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
 }
 
 .hub-header p {
@@ -45,11 +47,12 @@
   background-size: cover;
   background-position: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--color-border);
 }
 
 .hub-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(74, 52, 46, 0.15);
 }
 
 .card-overlay {
@@ -58,7 +61,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.8) 20%, transparent 60%);
+  /* Degradado oscuro suave para asegurar legibilidad */
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 10%, rgba(0,0,0,0.4) 50%, transparent 100%);
   z-index: 1;
 }
 
@@ -68,31 +72,38 @@
 }
 
 .card-content h2 {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
+  font-weight: 800;
   margin: 0 0 0.5rem 0;
-  color: white;
+  color: white; /* Texto blanco sobre fondo oscuro */
 }
 
 .card-content p {
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1.5rem;
 }
 
 .card-action {
   display: inline-block;
-  margin-top: 1rem;
-  font-weight: bold;
-  font-size: 1.1rem;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-brand); /* Unificar el color de acción al naranja de la marca */
+  transition: color 0.2s;
 }
 
-/* --- Colores de Acento --- */
-.card-match .card-action { color: #F4A261; } /* Naranja */
-.card-loss .card-action { color: #26C6DA; } /* Cyan */
-.card-adopt .card-action { color: #BDBDBD; } /* Gris */
+.hub-card:hover .card-action {
+  color: var(--color-primary-action-hover); /* Cambiar a verde al hacer hover en la tarjeta */
+}
+
+/* --- Estados Específicos --- */
 
 .hub-card.disabled {
   cursor: not-allowed;
-  filter: grayscale(80%);
+  filter: grayscale(100%);
+  opacity: 0.7;
 }
 
 .hub-card.disabled:hover {
@@ -100,9 +111,16 @@
   box-shadow: none;
 }
 
+.hub-card.disabled .card-action {
+  color: #ccc;
+}
+
 /* Responsive para móviles */
 @media (max-width: 900px) {
   .hub-grid {
     grid-template-columns: 1fr;
+  }
+  .hub-card {
+    height: 350px;
   }
 }

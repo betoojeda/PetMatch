@@ -1,6 +1,6 @@
 .lost-pets-page-container {
   width: 100%;
-  max-width: 900px; /* Un poco más ancho para que respire mejor */
+  max-width: 900px;
   margin: 0 auto;
   padding: 2rem;
 }
@@ -12,41 +12,38 @@
   justify-content: center;
   text-align: center;
   margin-bottom: 3rem;
-  padding: 4rem 2rem; /* Más padding vertical para hacer el banner más grande */
+  padding: 4rem 2rem;
   background: var(--gradient-primary);
-  color: var(--color-white);
+  color: var(--color-card-bg); /* Texto blanco sobre el degradado */
   border-radius: 20px;
-  position: relative; /* Necesario para posicionar el botón de regreso */
-  box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
+  position: relative;
+  box-shadow: 0 10px 30px rgba(123, 196, 127, 0.3); /* Sombra verde */
 }
 
 .back-to-home-link {
   position: absolute;
   top: 20px;
   left: 20px;
-  color: var(--color-white);
+  color: var(--color-card-bg);
   text-decoration: none;
-  font-weight: bold;
-  background-color: rgba(255, 255, 255, 0.2); /* Fondo semitransparente */
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.15);
   padding: 0.6rem 1.2rem;
-  border-radius: 30px;
+  border-radius: 50px;
   transition: background-color 0.3s;
   font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 5px;
 }
 
 .back-to-home-link:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.25);
 }
 
 .lost-pets-header h1 {
   margin-top: 0.5rem;
   margin-bottom: 1rem;
-  font-size: 3rem; /* Título más grande */
-  font-family: 'Luckiest Guy', cursive;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  font-size: 2.8rem;
+  font-weight: 800;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
 }
 
 .lost-pets-header p {
@@ -55,21 +52,20 @@
   font-size: 1.2rem;
   max-width: 600px;
   line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* Estilo específico para el botón de reportar en esta página */
 .lost-pets-header .button-primary {
-  background: var(--color-white); /* Botón blanco para contrastar con el naranja */
-  color: var(--color-primary); /* Texto naranja */
-  font-size: 1.2rem;
-  padding: 1rem 2rem;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background: var(--color-card-bg);
+  color: var(--color-primary-action); /* Texto verde */
 }
 
 .lost-pets-header .button-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  background-color: #fff; /* Asegurar que siga blanco al hover */
+  background: var(--color-card-bg);
+  color: var(--color-primary-action-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
 }
 
 .lost-pets-list {
