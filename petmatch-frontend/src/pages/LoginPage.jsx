@@ -14,7 +14,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Determinar la ruta de regreso. Por defecto, al Hub.
   const from = location.state?.from || '/';
 
   const handleSubmit = async (e) => {
@@ -40,10 +39,38 @@ const LoginPage = () => {
       {isLoading && <LoadingModal message="Iniciando sesión..." />}
       <div className="auth-page-container">
         <div className="form-container">
-          <img src={logo} alt="petmatch Logo" className="auth-logo" />
+          <img src={logo} alt="PetMatch Logo" className="auth-logo" />
           <h2>Iniciar Sesión</h2>
           <form onSubmit={handleSubmit}>
-            {/* ... (resto del formulario) ... */}
+            <div className="form-row">
+              <label htmlFor="email">Correo electrónico</label>
+              <input
+                id="email"
+                type="email"
+                placeholder="tu@email.com"
+                className="form-input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={isLoading}
+              />
+            </div>
+            <div className="form-row">
+              <label htmlFor="password">Contraseña</label>
+              <input
+                id="password"
+                type="password"
+                placeholder="Tu contraseña"
+                className="form-input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={isLoading}
+              />
+            </div>
+            <button type="submit" className="button-primary auth-button" disabled={isLoading}>
+              {isLoading ? 'Entrando...' : 'Entrar'}
+            </button>
             <div className="auth-links">
               <p>¿No tienes cuenta? <Link to="/register" state={{ from }}>Regístrate</Link></p>
               <p><Link to="/forgot-password">¿Olvidaste tu contraseña?</Link></p>
