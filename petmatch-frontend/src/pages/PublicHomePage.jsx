@@ -28,10 +28,10 @@ const PublicHomePage = () => {
         <img src={logo} alt="PetMatch Logo" className="landing-logo-img" />
         <nav className="landing-nav">
           <div className="desktop-nav">
-            <Link to="/" className="landing-nav-btn">← Volver al Hub</Link> {/* Botón de regreso */}
-            <Link to="/about" className="landing-nav-btn">Acerca de</Link>
-            <Link to="/login" className="landing-nav-btn">Iniciar Sesión</Link>
-            <Link to="/register" className="landing-nav-btn primary">Regístrate</Link>
+            <Link to="/" className="landing-nav-btn">← Volver al Hub</Link>
+            <Link to="/about" state={{ from: '/petmatch' }} className="landing-nav-btn">Acerca de</Link>
+            <Link to="/login" state={{ from: '/petmatch' }} className="landing-nav-btn">Iniciar Sesión</Link>
+            <Link to="/register" state={{ from: '/petmatch' }} className="landing-nav-btn primary">Regístrate</Link>
           </div>
           <div className="mobile-nav">
             <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="hamburger-btn">
@@ -41,9 +41,9 @@ const PublicHomePage = () => {
               <div className="mobile-menu">
                 <Link to="/" className="menu-item">← Volver al Hub</Link>
                 <Link to="/lost-pets" className="menu-item">Mascotas Perdidas</Link>
-                <Link to="/about" className="menu-item">Acerca de</Link>
-                <Link to="/login" className="menu-item">Iniciar Sesión</Link>
-                <Link to="/register" className="menu-item primary">Regístrate</Link>
+                <Link to="/about" state={{ from: '/petmatch' }} className="menu-item">Acerca de</Link>
+                <Link to="/login" state={{ from: '/petmatch' }} className="menu-item">Iniciar Sesión</Link>
+                <Link to="/register" state={{ from: '/petmatch' }} className="menu-item primary">Regístrate</Link>
               </div>
             )}
           </div>
@@ -60,32 +60,11 @@ const PublicHomePage = () => {
           <HeroImageCarousel />
         </div>
 
-        <Link to="/register" className="hero-cta-btn">Únete a la Comunidad</Link>
+        <Link to="/register" state={{ from: '/petmatch' }} className="hero-cta-btn">Únete a la Comunidad</Link>
       </main>
 
-      {/* 
-      <section className="lost-pets-promo-section">
-        <div className="promo-content">
-          <h2>¿Has perdido o encontrado una mascota?</h2>
-          <p>Nuestra comunidad está aquí para ayudar. Publica un aviso o revisa las publicaciones para ayudar a un amigo a volver a casa.</p>
-          <Link to="/lost-pets" className="button-primary">Ir a Mascotas Perdidas</Link>
-        </div>
-      </section>
-      */}
-
       <footer className="landing-stats">
-        <div className="stat-item">
-          <div className="stat-number" style={{ color: '#e55' }}>+<StatsCounter end={stats.totalMatches} /></div>
-          <div className="stat-label">Matches Creados</div>
-        </div>
-        <div className="stat-item">
-          <div className="stat-number" style={{ color: '#5cde5c' }}>+<StatsCounter end={stats.totalUsers} /></div>
-          <div className="stat-label">Miembros Activos</div>
-        </div>
-        <div className="stat-item">
-          <div className="stat-number" style={{ color: '#f7b733' }}>+<StatsCounter end={stats.totalPets} /></div>
-          <div className="stat-label">Mascotas Registradas</div>
-        </div>
+        {/* ... (stats) ... */}
       </footer>
     </div>
   );
